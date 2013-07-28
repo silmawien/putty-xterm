@@ -5893,13 +5893,11 @@ int format_arrow_key(char *buf, Terminal *term, int xkey, int ctrl)
 	if (!term->app_keypad_keys)
 	    app_flg = 0;
 #endif
-	/* Useful mapping of Ctrl-arrows */
-	if (ctrl)
-	    app_flg = !app_flg;
-
 	if (app_flg)
 	    p += sprintf((char *) p, "\x1BO%c", xkey);
-	else
+	else if (ctrl)
+	    p += sprintf((char *) p, "\x1B[1;5%c", xkey);
+        else
 	    p += sprintf((char *) p, "\x1B[%c", xkey);
     }
 
